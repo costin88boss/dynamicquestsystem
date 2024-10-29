@@ -13,4 +13,4 @@ There's also a weapon called "NPCs Snithcer", which lets you see a HUD overlay o
 Total quests completed per players are saved in sv.db (for demonstration purposes, also because it's cooler).
 Convars (and item models that can spawn when you get the "Bring me item" quest) are saved as json in the /data/ folder serverside.
 
-Convars can also be set via the spawn menu's right side "Settings
+Convars can also be set via the spawn menu's right side "Settings" category, in the Costin's DQS tab.
