@@ -38,13 +38,13 @@ end
 function ENT:RunBehaviour()
 	while(true) do
         if(self.disappear) then
-            self.disappear = false
 
             self:StartActivity( ACT_WALK )
             self.loco:SetDesiredSpeed( 100 )
             self:MoveToPos( self:GetPos() + Vector( math.Rand( -1, 1 ), math.Rand( -1, 1 ), 0 ) * 750 )
             self:StartActivity( ACT_IDLE )
             
+            self.disappear = false
             table.insert(costin_dqs.sleepingNPCs, self)
         end
 		coroutine.yield()
@@ -56,7 +56,16 @@ function ENT:Use(ply)
         if(self.dqs_ply == ply) then
             self:UseFunction(ply)
         else
-            ply:ChatPrint("[ANOTHER PLAYER IS USING THIS QUEST NPC!]")
+            local tableContainsMe = false
+            for i, npc in pairs(costin_dqs.sleepingNPCs) do
+                if(npc == self) then
+                    tableContainsMe = true
+                    break
+                end
+            end
+            if(!tableContainsMe && !self.disappear) then
+                ply:ChatPrint("[ANOTHER PLAYER IS USING THIS QUEST NPC!]")
+            end
         end
     else
         if(ply.dqs_activeQuestNPC != nil) then

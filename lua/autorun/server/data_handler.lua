@@ -14,16 +14,17 @@ function costin_dqs:SavePlayersStats()
         ply.dqs_questsCompleted = ply.dqs_questsCompleted or 0
         if(ply.dqs_questsCompleted == 0) then continue end
 
-        ply.dqs_questsCompleted = ply.dqs_questsCompleted + costin_dqs:GetPlayerTotalQuestsCompleted(ply)
+        local totalQuests = 1 + costin_dqs:GetPlayerTotalQuestsCompleted(ply)
 
         local data = sql.Query("SELECT * FROM costin_dqs_playerstats WHERE steamID = " .. sql.SQLStr(ply:SteamID()))
         if(data) then
-            sql.Query("UPDATE costin_dqs_playerstats SET totalQuestsCompleted = " .. ply.dqs_questsCompleted .. " WHERE steamID = " .. sql.SQLStr(ply:SteamID()) .. ";")
+            sql.Query("UPDATE costin_dqs_playerstats SET totalQuestsCompleted = " .. totalQuests .. " WHERE steamID = " .. sql.SQLStr(ply:SteamID()) .. ";")
         else
-            sql.Query("INSERT INTO costin_dqs_playerstats(steamID, totalQuestsCompleted) VALUES(" .. sql.SQLStr(ply:SteamID()) .. ", " .. ply.dqs_questsCompleted .. ")")
+            sql.Query("INSERT INTO costin_dqs_playerstats(steamID, totalQuestsCompleted) VALUES(" .. sql.SQLStr(ply:SteamID()) .. ", " .. totalQuests .. ")")
         end
     end
 end
+
 
 function costin_dqs:GetBringMeItemTypes()
     return util.JSONToTable(file.Read("dynamicquestsystem/bringmeitem_types.json"))
