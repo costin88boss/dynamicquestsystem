@@ -10,7 +10,7 @@ ENT.PrintName = "Quest Giver"
 ENT.Category = "Dynamic Quest System"
 
 ENT.Spawnable = true
-ENT.AdminOnly = true
+//ENT.AdminOnly = true
 
 // Hacky var, check ENT:ActualInit() comment
 if(SERVER) then

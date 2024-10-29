@@ -50,6 +50,7 @@ net.Receive("cdqs_AcceptQuest", function(len, ply)
         local targetPos = area:GetRandomPoint()
 
         local ent = ents.Create("sent_dqs_triggerbubble")
+        ent:SetNW2Entity("quest_player", ply)
         ent:SetPos(targetPos)
         ent:Spawn()
         ent:Activate()

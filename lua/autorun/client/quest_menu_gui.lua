@@ -1,11 +1,6 @@
 AddCSLuaFile()
 
 net.Receive("cdqs_OpenNpcQuestMenu", function(len, ply)
-    if(LocalPlayer().dqs_activeQuestID != nil) then
-        chat.AddText("[A QUEST IS ALREADY ACTIVE]")
-        return 
-    end
-
     local questNPC = net.ReadEntity()
     local questType = questNPC:GetQuestType()
 
@@ -38,6 +33,5 @@ net.Receive("cdqs_OpenNpcQuestMenu", function(len, ply)
         net.SendToServer()
         frame:Close()
         LocalPlayer().dqs_activeQuestID = questType
-        LocalPlayer().dqs_activeQuestNPC = questNPC
     end
 end)

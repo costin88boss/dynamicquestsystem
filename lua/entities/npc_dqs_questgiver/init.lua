@@ -15,7 +15,7 @@ ENT.UseCustomUseFunc = false
 local eyeHeight = Vector(0, 0, 64)
 
 function ENT:UseFunction(ply)
-   
+   ply:ChatPrint("[FINISH THE QUEST BEFORE RETURNING TO THE NPC!]")
 end
 
 function ENT:Disappear(ply)
@@ -53,8 +53,17 @@ end
 
 function ENT:Use(ply)
     if(self.UseCustomUseFunc) then
-        self:UseFunction(ply)
+        if(self.dqs_ply == ply) then
+            self:UseFunction(ply)
+        else
+            ply:ChatPrint("[ANOTHER PLAYER IS USING THIS QUEST NPC!]")
+        end
     else
+        if(ply.dqs_activeQuestNPC != nil) then
+            ply:ChatPrint("[A QUEST IS ALREADY ACTIVE!]")
+            return 
+        end
+
         ply.dqs_selectedNPC = self
         net.Start("cdqs_OpenNpcQuestMenu")
         net.WriteEntity(self)
