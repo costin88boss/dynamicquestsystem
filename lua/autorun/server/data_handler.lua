@@ -5,10 +5,16 @@
 
 costin_dqs = costin_dqs or {}
 
+function costin_dqs:GetPlayerTotalQuestsCompleted(ply)
+    return sql.QueryValue("SELECT totalQuestsCompleted FROM costin_dqs_playerstats WHERE steamID = ".. sql.SQLStr(ply:SteamID()) .. ";")
+end
+
 function costin_dqs:SavePlayersStats()
     for i, ply in pairs(player.GetAll()) do
         ply.dqs_questsCompleted = ply.dqs_questsCompleted or 0
         if(ply.dqs_questsCompleted == 0) then continue end
+
+        ply.dqs_questsCompleted = ply.dqs_questsCompleted + costin_dqs:GetPlayerTotalQuestsCompleted(ply)
 
         local data = sql.Query("SELECT * FROM costin_dqs_playerstats WHERE steamID = " .. sql.SQLStr(ply:SteamID()))
         if(data) then
@@ -17,10 +23,6 @@ function costin_dqs:SavePlayersStats()
             sql.Query("INSERT INTO costin_dqs_playerstats(steamID, totalQuestsCompleted) VALUES(" .. sql.SQLStr(ply:SteamID()) .. ", " .. ply.dqs_questsCompleted .. ")")
         end
     end
-end
-
-function costin_dqs:GetPlayerTotalQuestsCompleted(ply)
-    return sql.QueryValue("SELECT totalQuestsCompleted FROM costin_dqs_playerstats WHERE steamID = ".. sql.SQLStr(ply:SteamID()) .. ";")
 end
 
 function costin_dqs:GetBringMeItemTypes()
