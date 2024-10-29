@@ -103,6 +103,8 @@ end
 
 // This is also used for NPC pooling via costin_dqs.sleepingNPCs to improve a bit of performance even more.
 function ENT:ActualInit()
+    self:SetMaxHealth(99999999)
+    self:SetHealth(99999999)
     local variant = 0
     if(math.random(1, 2) == 1) then
         // Man

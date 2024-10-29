@@ -7,6 +7,8 @@ costin_dqs.npcs = costin_dqs.npcs or {}
 // Very slight performance increase.
 costin_dqs.sleepingNPCs = costin_dqs.sleepingNPCs or {}
 
+local spawningFailsafe = false
+
 local function StartSpawnSystem()
     timer.Start("costin_dqs_spawntimer")
 end
@@ -16,12 +18,17 @@ local function StopSpawnSystem()
 end
 
 local function HandleSpawnSystem()
+    if(spawningFailsafe == true) then 
+        error("Spawning failsafe activated! There is no suitable navmesh area to spawn NPCs in.")
+        return
+    end
 
     if(#costin_dqs.npcs >= costin_dqs.convar_maxnpcamount:GetInt()) then
         return
     end
 
-    for i = 1, costin_dqs.convar_spawnretryattempts:GetInt() do
+    spawningFailsafe = true
+    for i = 1, 1000 do
         local fail = false
         local area = costin_dqs.navmeshAreas[math.random(1, #costin_dqs.navmeshAreas)]
 
@@ -93,6 +100,7 @@ local function HandleSpawnSystem()
         ent:Activate()
 
         costin_dqs.utils:Print("Spawned at: " .. vec.x .. ", ".. vec.y.. ", ".. vec.z)
+        spawningFailsafe = false
         break
     end
 end

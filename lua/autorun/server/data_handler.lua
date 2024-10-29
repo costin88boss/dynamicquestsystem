@@ -52,7 +52,6 @@ local function LoadConvars()
     local convarData = util.JSONToTable(file.Read("dynamicquestsystem/convars.json"))
     costin_dqs.convar_mapspawnerenabled = CreateConVar("costin_dqs_mapspawnerenabled", "0", FCVAR_NOTIFY)
     costin_dqs.convar_delay = CreateConVar("costin_dqs_spawndelay", convarData.costin_dqs_spawndelay or "1", FCVAR_NOTIFY)
-    costin_dqs.convar_spawnretryattempts = CreateConVar("costin_dqs_spawnretryattempts", convarData.costin_dqs_spawnretryattempts or "10", FCVAR_NOTIFY)
     costin_dqs.convar_mindistancefromplayers = CreateConVar("costin_dqs_mindistancefromplayers", convarData.costin_dqs_mindistancefromplayers or "2000", FCVAR_NOTIFY)
     costin_dqs.convar_maxnpcamount = CreateConVar("costin_dqs_maxnpcamount", convarData.costin_dqs_maxnpcamount or "5", FCVAR_NOTIFY)
 
@@ -66,7 +65,6 @@ local function SaveConvars()
     // I don't want to make 'enabled' persistent.
     //convarData.costin_dqs_enabled                = cvars.Bool("costin_dqs_mapspawnerenabled", false)
     convarData.costin_dqs_spawndelay             = tostring(cvars.Number("costin_dqs_spawndelay", 1))
-    convarData.costin_dqs_spawnretryattempts     = tostring(cvars.Number("costin_dqs_spawnretryattempts", 10))
     convarData.costin_dqs_mindistancefromplayers = tostring(cvars.Number("costin_dqs_mindistancefromplayers", 2000))
     convarData.costin_dqs_maxnpcamount = tostring(cvars.Number("costin_dqs_maxnpcamount", 5))
 
