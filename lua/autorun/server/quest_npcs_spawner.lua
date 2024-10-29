@@ -1,0 +1,113 @@
+include("autorun/server/data_handler.lua")
+
+costin_dqs = costin_dqs or {}
+costin_dqs.npcs = costin_dqs.npcs or {}
+
+// Used to pool NPCs instead of spawning/deleting over and over.
+// Very slight performance increase.
+costin_dqs.sleepingNPCs = costin_dqs.sleepingNPCs or {}
+
+local function StartSpawnSystem()
+    timer.Start("costin_dqs_spawntimer")
+end
+
+local function StopSpawnSystem()
+    timer.Stop("costin_dqs_spawntimer")
+end
+
+local function HandleSpawnSystem()
+
+    if(#costin_dqs.npcs >= costin_dqs.convar_maxnpcamount:GetInt()) then
+        return
+    end
+
+    for i = 1, costin_dqs.convar_spawnretryattempts:GetInt() do
+        local fail = false
+        local area = costin_dqs.navmeshAreas[math.random(1, #costin_dqs.navmeshAreas)]
+
+        if(area:IsUnderwater()) then
+            costin_dqs.utils:Print("Failed to spawn, underwater! Re-trying!")
+            continue
+        end
+
+        local vec = area:GetRandomPoint()
+
+        local ent = nil
+        if(table.IsEmpty(costin_dqs.sleepingNPCs)) then
+            ent = ents.Create("npc_dqs_questgiver")
+        else
+            ent = costin_dqs.sleepingNPCs[1]
+            table.remove(costin_dqs.sleepingNPCs, 1)
+        end
+
+        if(!ent:IsValid()) then
+            continue
+        end
+
+        if(!ent:IsInWorld()) then
+            // Redundant, because navmeshes don't exist outside the world.
+            costin_dqs.utils:Print("Failed to spawn, out of world! Re-trying!")
+            table.insert(costin_dqs.sleepingNPCs, ent)
+            continue
+        end
+
+        vec.z = vec.z + 20
+        ent:SetPos(vec)
+
+        for j, ply in pairs(player.GetHumans()) do
+            local dist = ply:GetPos():Distance2D(vec)
+            if(dist < costin_dqs.convar_mindistancefromplayers:GetInt()) then
+                costin_dqs.utils:Print("Failed to spawn, too close to a player! Re-trying!")
+                fail = true 
+                break
+            end
+            if(costin_dqs.utils:IsEntityInPlayerView(ply, ent)) then
+                // trace is a bit ineffective as it does just a ray
+                local traceCfg = {}
+                traceCfg.start = ply:GetPos()
+                traceCfg.endpos = ent:GetPos()
+                traceCfg.filter = { ply, ent }
+                
+                trace = util.TraceLine(traceCfg)
+                if(!trace.Hit) then
+                    costin_dqs.utils:Print("Failed to spawn, in player view! Re-trying!")
+                    fail = true
+                    break
+                end
+            end
+        end
+        if(fail) then 
+            table.insert(costin_dqs.sleepingNPCs, ent)
+            continue 
+        end
+
+        // FIXME: check if it's colliding with a prop or entity!!!!
+
+        ent:SetQuestType(math.random(1, costin_dqs.questType.MaxVal))
+
+        // Hacky stuff, check ENT:ActualInit() comment
+        ent.worldSpawnerSpawned = true
+        ent:ActualInit()
+        
+        ent:Spawn()
+        ent:Activate()
+
+        costin_dqs.utils:Print("Spawned at: " .. vec.x .. ", ".. vec.y.. ", ".. vec.z)
+        break
+    end
+end
+
+cvars.AddChangeCallback("costin_dqs_spawndelay", function(convar, old, new)
+    timer.Adjust("costin_dqs_spawntimer", costin_dqs.convar_delay:GetInt(), 0, HandleSpawnSystem)
+end)
+
+cvars.AddChangeCallback("costin_dqs_mapspawnerenabled", function(convar, old, new)
+    if(tonumber(new) >= 1) then
+        StartSpawnSystem()
+        return
+    end
+    StopSpawnSystem()
+end)
+
+timer.Create("costin_dqs_spawntimer", costin_dqs.convar_delay:GetInt(), 0, HandleSpawnSystem)
+timer.Stop("costin_dqs_spawntimer")
