@@ -74,14 +74,16 @@ costin_dqs.completeStatus.FAILED = 2
 
 -- Loading stuff
 costin_dqs.LoadShared("util.lua")
-costin_dqs.LoadShared("quest_types.lua")
+//costin_dqs.LoadShared("quest_types.lua")
 
+costin_dqs.LoadServer("sv_quest_types.lua")
 costin_dqs.LoadServer("active_quest_updater.lua")
 costin_dqs.LoadServer("data_handler.lua")
 costin_dqs.LoadServer("enemyhorde_spawner.lua")
 costin_dqs.LoadServer("quest_npcs_handler.lua")
 costin_dqs.LoadServer("quest_npcs_spawner.lua")
 
+costin_dqs.LoadClient("cl_quest_types.lua")
 costin_dqs.LoadClient("cl_quest_npcs_handler.lua")
 costin_dqs.LoadClient("settings_menu.lua")
 costin_dqs.LoadClient("draw/active_quest_gui.lua")
