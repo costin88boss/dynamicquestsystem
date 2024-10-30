@@ -47,7 +47,7 @@ if (SERVER) then
             if (!ply:IsAdmin()) then continue end
             ply:ChatPrint("WARNING: There are no navmesh areas in the map!")
         end
-        // Not going to use costin_dqs.utils.Print
+        -- Not going to use costin_dqs.utils.Print
         print("WARNING: There are no navmesh areas in the map!")
     end
 

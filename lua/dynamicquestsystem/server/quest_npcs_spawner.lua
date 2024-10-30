@@ -45,12 +45,13 @@ local function HandleSpawnSystem()
             continue
         end
 
+        -- Redundant, because navmeshes don't exist outside the world.
+        /*
         if (!ent:IsInWorld()) then
-            -- Redundant, because navmeshes don't exist outside the world.
             costin_dqs.utils:Print("Failed to spawn, out of world! Re-trying!")
             table.insert(costin_dqs.sleepingNPCs, ent)
             continue
-        end
+        end*/
 
         vec.z = vec.z + 20
         ent:SetPos(vec)

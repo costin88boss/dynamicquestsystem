@@ -2,4 +2,4 @@
 -- Everything clientside is in shared.lua instead.
 AddCSLuaFile()
 
-print("CL INIT")
+print("CL_INIT NPC_DQS_QUESTGIVER AAA")
