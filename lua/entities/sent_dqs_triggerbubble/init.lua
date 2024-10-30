@@ -31,20 +31,20 @@ hook.Add("ShouldCollide", "costin_dqs_triggerbubblecollide", function(ent1, ent2
     local ply = nil 
     
 
-    if(ent1:GetClass() == "sent_dqs_triggerbubble") then
+    if (ent1:GetClass() == "sent_dqs_triggerbubble") then
         bubble = ent1
-        if(ent2:IsPlayer()) then
+        if (ent2:IsPlayer()) then
             ply = ent2
         end
     else 
-        if(ent2:GetClass() == "sent_dqs_triggerbubble") then
+        if (ent2:GetClass() == "sent_dqs_triggerbubble") then
             bubble = ent1
-            if(ent1:IsPlayer()) then
+            if (ent1:IsPlayer()) then
                 ply = ent1
             end
         end
     end
-    if(ply == nil or bubble == nil) then return end 
+    if (ply == nil or bubble == nil) then return end 
 
     local distance = bubble:GetPos():Distance(ply:GetPos())
 

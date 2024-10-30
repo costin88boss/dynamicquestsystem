@@ -9,6 +9,11 @@ local function StopSpawnSystem()
 end
 
 local function HandleSpawnSystem()
+    if(#costin_dqs.navmeshAreas == 0) then
+        print("No navmesh areas found!")
+        return 
+    end
+    
     if (spawningFailsafe == true) then 
         error("Spawning failsafe activated! There is no suitable navmesh area to spawn NPCs in.")
         return

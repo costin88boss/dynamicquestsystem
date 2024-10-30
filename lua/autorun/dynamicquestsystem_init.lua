@@ -25,14 +25,14 @@ function costin_dqs.LoadClient(fn)
 end
 
 function costin_dqs.LoadServer(fn)
-    if(CLIENT) then return end
+    if (CLIENT) then return end
 
     local f = costin_dqs.baseDir .. "server/" .. fn
     include(f)
 end
 
 -- Server-only initialization stuff
-if(SERVER) then
+if (SERVER) then
     costin_dqs.convars = costin_dqs.convars or {}
 
     -- Used to pool NPCs instead of spawning/deleting over and over.
@@ -40,8 +40,15 @@ if(SERVER) then
     costin_dqs.sleepingNPCs = costin_dqs.sleepingNPCs or {}
 
     local function LoadNavmeshAreas()
-        if(costin_dqs.navmeshAreas != nil) then return end
+        if (costin_dqs.navmeshAreas != nil) then return end
         costin_dqs.navmeshAreas = navmesh.GetAllNavAreas()
+        if (#costin_dqs.navmeshAreas != 0) then return end
+        for i, ply in pairs(player.GetHumans()) do
+            if (!ply:IsAdmin()) then continue end
+            ply:ChatPrint("WARNING: There are no navmesh areas in the map!")
+        end
+        // Not going to use costin_dqs.utils.Print
+        print("WARNING: There are no navmesh areas in the map!")
     end
 
     local function InitPlyStuff(ply)

@@ -1,5 +1,9 @@
 -- Highly unoptimized
 function costin_dqs:SpawnHordeRand(npcType, count, ply)
+    if(#costin_dqs.navmeshAreas == 0) then
+        print("No navmesh areas found!")
+        return 
+    end
     local npcs = {}
 
     for j = 1, count do

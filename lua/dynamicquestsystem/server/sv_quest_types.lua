@@ -1,6 +1,11 @@
 costin_dqs.questType.GOTOAREA = {}
-//costin_dqs.questType.GOTOAREA.printName = "Go to area."
+--costin_dqs.questType.GOTOAREA.printName = "Go to area."
 costin_dqs.questType.GOTOAREA.runFunc = function(ply)
+    if(#costin_dqs.navmeshAreas == 0) then
+        print("No navmesh areas found!")
+        return 
+    end
+
     local area = nil
     while(true) do
         area = costin_dqs.navmeshAreas[math.random(1, #costin_dqs.navmeshAreas)]
@@ -29,8 +34,13 @@ costin_dqs.questType.GOTOAREA.runFunc = function(ply)
     end
 end
 costin_dqs.questType.BRINGITEM = {}
-//costin_dqs.questType.BRINGITEM.printName = "Bring me item."
+--costin_dqs.questType.BRINGITEM.printName = "Bring me item."
 costin_dqs.questType.BRINGITEM.runFunc = function(ply)
+    if(#costin_dqs.navmeshAreas == 0) then
+        print("No navmesh areas found!")
+        return 
+    end
+
     local area = nil
     while(true) do
         area = costin_dqs.navmeshAreas[math.random(1, #costin_dqs.navmeshAreas)]
@@ -88,7 +98,7 @@ costin_dqs.questType.BRINGITEM.runFunc = function(ply)
     costin_dqs:UpdateQuest(ply.dqs_activeQuestNPC, 0, { ent:GetPos(), false })
 end
 costin_dqs.questType.DEFENDME = {}
-//costin_dqs.questType.DEFENDME.printName = "Defend me."
+--costin_dqs.questType.DEFENDME.printName = "Defend me."
 costin_dqs.questType.DEFENDME.runFunc = function(ply)
     local currentAmount = 5
     local npcs = costin_dqs:SpawnHordeRand("npc_combine_s", currentAmount, ply)
