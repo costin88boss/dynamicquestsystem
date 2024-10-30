@@ -44,6 +44,7 @@ hook.Add("ShouldCollide", "costin_dqs_triggerbubblecollide", function(ent1, ent2
             end
         end
     end
+    if(ply == nil or bubble == nil) then return end 
 
     local distance = bubble:GetPos():Distance(ply:GetPos())
 
