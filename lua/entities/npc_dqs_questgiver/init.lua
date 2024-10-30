@@ -1,4 +1,6 @@
-include("entities/npc_dqs_questgiver/shared.lua")
+AddCSLuaFile("cl_init.lua")
+AddCSLuaFile("shared.lua")
+include("shared.lua")
 
 util.AddNetworkString("cdqs_OpenNpcQuestMenu")
 util.AddNetworkString("cdqs_TransparencyTransition")

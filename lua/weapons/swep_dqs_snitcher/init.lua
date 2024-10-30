@@ -1,4 +1,6 @@
-include("weapons/swep_dqs_snitcher/shared.lua")
+AddCSLuaFile("cl_init.lua")
+AddCSLuaFile("shared.lua")
+include("shared.lua")
 
 function SWEP:Deploy()
     self:GetOwner():SetNW2Bool("CanSeeQuestNpcsXray", true)

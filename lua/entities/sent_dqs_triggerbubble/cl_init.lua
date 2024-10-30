@@ -1,5 +1,7 @@
--- For some odd reason this file is not being run on multiplayer.
--- Everything clientside is in shared.lua instead.
-AddCSLuaFile()
+include("shared.lua")
 
-print("CL_INIT SENT_DQS_TRIGGERBUBBLE AAA")
+function ENT:Draw()
+    if (LocalPlayer() == self:GetNW2Entity("quest_player")) then
+        self:DrawModel()
+    end
+end

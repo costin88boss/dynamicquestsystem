@@ -1,5 +1,3 @@
-AddCSLuaFile()
-
 SWEP.Base = "weapon_base"
 
 SWEP.PrintName = "NPCs Snitcher"

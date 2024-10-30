@@ -1,4 +1,6 @@
-include("entities/sent_dqs_triggerbubble/shared.lua")
+AddCSLuaFile("cl_init.lua")
+AddCSLuaFile("shared.lua")
+include("shared.lua")
 
 function ENT:Initialize()
     self:SetModel("models/hunter/misc/sphere1x1.mdl")
