@@ -10,7 +10,7 @@ end
 
 local function HandleSpawnSystem()
     if(#costin_dqs.navmeshAreas == 0) then
-        print("No navmesh areas found!")
+        print("QUEST ERROR: No navmesh areas found!")
         return 
     end
     

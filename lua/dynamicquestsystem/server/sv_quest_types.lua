@@ -2,7 +2,9 @@ costin_dqs.questType.GOTOAREA = {}
 --costin_dqs.questType.GOTOAREA.printName = "Go to area."
 costin_dqs.questType.GOTOAREA.runFunc = function(ply)
     if(#costin_dqs.navmeshAreas == 0) then
-        print("No navmesh areas found!")
+        ply:ChatPrint("QUEST ERROR: No navmesh areas found! Cannot find a suitable area!")
+        print("QUEST ERROR: No navmesh areas found!")
+        costin_dqs:UpdateQuest(ply.dqs_activeQuestNPC, 2, { })
         return 
     end
 
@@ -37,7 +39,9 @@ costin_dqs.questType.BRINGITEM = {}
 --costin_dqs.questType.BRINGITEM.printName = "Bring me item."
 costin_dqs.questType.BRINGITEM.runFunc = function(ply)
     if(#costin_dqs.navmeshAreas == 0) then
-        print("No navmesh areas found!")
+        ply:ChatPrint("QUEST ERROR: No navmesh areas found! Cannot find a suitable area for item!")
+        print("QUEST ERROR: No navmesh areas found!")
+        costin_dqs:UpdateQuest(ply.dqs_activeQuestNPC, 2, { })
         return 
     end
 
@@ -103,11 +107,9 @@ costin_dqs.questType.DEFENDME.runFunc = function(ply)
     local currentAmount = 5
     local npcs = costin_dqs:SpawnHordeRand("npc_combine_s", currentAmount, ply)
 
-    if (npcs == {} || #npcs < currentAmount) then
-        costin_dqs:UpdateQuest(ply.dqs_activeQuestNPC, 2, { }, "QUEST ERROR: Could not spawn all NPCs validly! Try to increase the min/max ranges.")
-        for i = 1, #npcs do
-            npcs[i]:Remove()
-        end
+    if (#npcs < currentAmount) then
+        costin_dqs:UpdateQuest(ply.dqs_activeQuestNPC, 0, {})
+        costin_dqs:UpdateQuest(ply.dqs_activeQuestNPC, 2, {})
         return
     end
 

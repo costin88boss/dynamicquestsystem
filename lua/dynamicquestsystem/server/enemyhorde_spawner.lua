@@ -1,10 +1,12 @@
 -- Highly unoptimized
 function costin_dqs:SpawnHordeRand(npcType, count, ply)
-    if(#costin_dqs.navmeshAreas == 0) then
-        print("No navmesh areas found!")
-        return 
-    end
     local npcs = {}
+
+    if(#costin_dqs.navmeshAreas == 0) then
+        ply:ChatPrint("QUEST ERROR: No navmesh areas found! Cannot spawn horde!")
+        print("QUEST ERROR: No navmesh areas found!")
+        return npcs
+    end
 
     for j = 1, count do
         for i = 1, 1000 do
@@ -45,6 +47,15 @@ function costin_dqs:SpawnHordeRand(npcType, count, ply)
             table.insert(npcs, ent)
             break 
         end
+    end
+
+    if(npcs == {} || #npcs < count) then
+        ply:ChatPrint("QUEST ERROR: Could not spawn all NPCs validly! Try to increase the min/max ranges.")
+        print("QUEST ERROR: Could not spawn all NPCs validly! Try to increase the min/max ranges.")
+        for i = 1, #npcs do
+            npcs[i]:Remove()
+        end
+        return npcs
     end
 
     return npcs
