@@ -5,7 +5,7 @@ util.AddNetworkString("cdqs_LocalTotalQuestsCompleted")
 net.Receive("cdqs_AcceptQuest", function(len, ply)
     if (ply.dqs_selectedNPC == nil) then return end
     if (ply.dqs_activeQuestIDType != nil) then return end -- No exploit allowed
-    -- Why 2 variables? Idk
+    -- Redundant to have 2 vars, but their different name simplify the whole process a bit
     ply.dqs_activeQuestNPC = ply.dqs_selectedNPC
     ply.dqs_selectedNPC = nil
 
@@ -15,10 +15,5 @@ net.Receive("cdqs_AcceptQuest", function(len, ply)
 
     ply.dqs_activeQuestNPC.UseCustomUseFunc = true
 
-    for i, type_ in pairs(costin_dqs.questType.types) do
-        if(i == ply.dqs_activeQuestIDType) then
-            costin_dqs.questType.types[i].runFunc(ply)
-            break
-        end
-    end
+    costin_dqs.questType.types[ply.dqs_activeQuestIDType].runFunc(ply)
 end)

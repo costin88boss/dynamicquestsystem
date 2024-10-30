@@ -47,6 +47,7 @@ local function GenerateFilesIfTheyDontExist()
     end
 end
 
+-- Gmod wiki says that FCVAR_ARCHIVE is only for clientside?
 local function LoadConvars()
     GenerateFilesIfTheyDontExist()
     local convarData = util.JSONToTable(file.Read("dynamicquestsystem/convars.json"))
@@ -59,6 +60,7 @@ local function LoadConvars()
     costin_dqs.convars.convar_enemyspawn_distmin = CreateConVar("costin_dqs_enemyspawn_distmin", convarData.costin_dqs_enemyspawn_distmin or "500", FCVAR_NOTIFY)
 end
 
+-- Gmod wiki says that FCVAR_ARCHIVE is only for clientside?
 local function SaveConvars()
     GenerateFilesIfTheyDontExist()
     local convarData = {}

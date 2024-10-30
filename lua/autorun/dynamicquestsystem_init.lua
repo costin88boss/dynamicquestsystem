@@ -57,7 +57,6 @@ if(SERVER) then
 
     hook.Add("PlayerInitialSpawn", "costin_dqs_playerinitialspawn", function(ply)
         -- Dirty hack; Couldn't find a better init hook
-        -- Probably not necessary and could have been added directly in HandleSpawnSystem()
         LoadNavmeshAreas()
 
         -- Writting this here so I don't make more hooks
@@ -74,7 +73,7 @@ costin_dqs.completeStatus.FAILED = 2
 
 -- Loading stuff
 costin_dqs.LoadShared("util.lua")
-//costin_dqs.LoadShared("quest_types.lua")
+--costin_dqs.LoadShared("quest_types.lua")
 
 costin_dqs.LoadServer("sv_quest_types.lua")
 costin_dqs.LoadServer("active_quest_updater.lua")

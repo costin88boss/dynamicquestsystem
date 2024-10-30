@@ -51,10 +51,9 @@ function ENT:Use(ply)
         else
             local tableContainsMe = false
             for i, npc in pairs(costin_dqs.sleepingNPCs) do
-                if (npc == self) then
-                    tableContainsMe = true
-                    break
-                end
+                if (npc != self) then continue end
+                tableContainsMe = true
+                break
             end
             if (!tableContainsMe && !self.disappear) then
                 ply:ChatPrint("[ANOTHER PLAYER IS USING THIS QUEST NPC!]")

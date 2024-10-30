@@ -70,12 +70,7 @@ net.Receive("cdqs_ActiveQuestUpdate", function()
 
     chat.AddText("[QUEST OBJECTIVE UPDATED]")
 
-    for i, type_ in pairs(costin_dqs.questType.types) do
-        if(i == LocalPlayer().dqs_activeQuestID) then
-            costin_dqs.questType.types[i].clRunFunc(ply)
-            break
-        end
-    end
+    costin_dqs.questType.types[LocalPlayer().dqs_activeQuestID].clRunFunc(LocalPlayer())
 end)
 
 net.Receive("cdqs_LocalTotalQuestsCompleted", function()

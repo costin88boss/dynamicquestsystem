@@ -14,9 +14,7 @@ local function HandleSpawnSystem()
         return
     end
 
-    if (#costin_dqs.npcs >= costin_dqs.convars.convar_maxnpcamount:GetInt()) then
-        return
-    end
+    if (#costin_dqs.npcs >= costin_dqs.convars.convar_maxnpcamount:GetInt()) then return end
 
     spawningFailsafe = true
     for i = 1, 1000 do
@@ -59,20 +57,22 @@ local function HandleSpawnSystem()
                 fail = true 
                 break
             end
-            if (costin_dqs.utils:IsEntityInPlayerView(ply, ent)) then
-                -- trace is a bit ineffective as it does just a ray
-                local traceCfg = {}
-                traceCfg.start = ply:GetPos()
-                traceCfg.endpos = ent:GetPos()
-                traceCfg.filter = { ply, ent }
-                
-                trace = util.TraceLine(traceCfg)
-                if (!trace.Hit) then
-                    costin_dqs.utils:Print("Failed to spawn, in player view! Re-trying!")
-                    fail = true
-                    break
-                end
-            end
+
+            if (!costin_dqs.utils:IsEntityInPlayerView(ply, ent)) then continue end
+
+            -- trace is a bit ineffective as it does just a ray
+            local traceCfg = {}
+            traceCfg.start = ply:GetPos()
+            traceCfg.endpos = ent:GetPos()
+            traceCfg.filter = { ply, ent }
+            
+            trace = util.TraceLine(traceCfg)
+
+            if (trace.Hit) then continue end
+
+            costin_dqs.utils:Print("Failed to spawn, in player view! Re-trying!")
+            fail = true
+            break
         end
         if (fail) then 
             table.insert(costin_dqs.sleepingNPCs, ent)

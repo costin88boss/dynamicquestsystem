@@ -124,10 +124,10 @@ costin_dqs.questType.DEFENDME.runFunc = function(ply)
         local alives = 0
 
         for i = 1, #npcs do
-            if (npcs[i]:IsValid()) then
-                table.insert(tab, npcs[i]:GetPos())
-                alives = alives + 1
-            end
+            if (!npcs[i]:IsValid()) then continue end
+
+            table.insert(tab, npcs[i]:GetPos())
+            alives = alives + 1
         end
         costin_dqs:UpdateVariables(ply.dqs_activeQuestNPC, tab)
 
