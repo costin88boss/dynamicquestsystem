@@ -1,20 +1,17 @@
 util.AddNetworkString("cdqs_UpdateVariables")
 util.AddNetworkString("cdqs_ActiveQuestUpdate")
 
--- completeStatus
--- 1 = complete
--- 2 = failed (don't add up)
 function costin_dqs:UpdateQuest(ent, completeStatus, attributes, errorMsg)
     local ply = ent.dqs_ply
     if (attributes == nil) then attributes = {} end
     ply.dqs_activeQuestAttributes = attributes
-    if (completeStatus != 0) then
-        ply.dqs_activeQuestNPC = nil -- I'm stupid
+    if (completeStatus != costin_dqs.completeStatus.PROGRESSING) then
+        ply.dqs_activeQuestNPC = nil
         ply.dqs_activeQuestAttributes = {}
         ply.dqs_activeQuestIDType = nil 
         ent.dqs_ply = nil
         ent:Disappear(ply)
-        if (completeStatus == 1) then
+        if (completeStatus == costin_dqs.completeStatus.COMPLETE) then
             ply.dqs_questsCompleted = ply.dqs_questsCompleted or 0
             ply.dqs_questsCompleted = ply.dqs_questsCompleted + 1
 
@@ -23,7 +20,6 @@ function costin_dqs:UpdateQuest(ent, completeStatus, attributes, errorMsg)
             costin_dqs:SavePlayersStats()
         end
     end
-    -- net is better than NW2
     net.Start("cdqs_ActiveQuestUpdate")
     net.WriteInt(completeStatus, 32)
     net.WriteString(errorMsg or "")
@@ -31,6 +27,7 @@ function costin_dqs:UpdateQuest(ent, completeStatus, attributes, errorMsg)
     net.Send(ply)
 end
 
+-- Similar to UpdateQuest but silent and doesn't send error msg or complete status
 function costin_dqs:UpdateVariables(ent, attributes)
     local ply = ent.dqs_ply
     if (attributes == nil) then attributes = {} end

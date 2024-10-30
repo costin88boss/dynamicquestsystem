@@ -66,6 +66,12 @@ if(SERVER) then
 end
 
 
+-- Quest complete statuses. I didn't feel like making a separate file just for this.
+costin_dqs.completeStatus = {}
+costin_dqs.completeStatus.PROGRESSING = 0
+costin_dqs.completeStatus.COMPLETE = 1
+costin_dqs.completeStatus.FAILED = 2
+
 -- Loading stuff
 costin_dqs.LoadShared("util.lua")
 costin_dqs.LoadShared("quest_types.lua")

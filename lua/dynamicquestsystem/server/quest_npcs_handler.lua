@@ -17,8 +17,6 @@ net.Receive("cdqs_AcceptQuest", function(len, ply)
 
     for i, type_ in pairs(costin_dqs.questType.types) do
         if(i == ply.dqs_activeQuestIDType) then
-            print(ply.dqs_activeQuestNPC)
-            print(ply:GetRunSpeed())
             costin_dqs.questType.types[i].runFunc(ply)
             break
         end
