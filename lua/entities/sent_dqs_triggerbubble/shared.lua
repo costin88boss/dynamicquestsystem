@@ -6,11 +6,11 @@ ENT.Type = "anim"
 ENT.PrintName = "TRIGGERBUBBLE"
 ENT.Category = "Dynamic Quest System"
 
-ENT.Spawnable = false // intentional
+ENT.Spawnable = false -- Intentional
 
-// Also intentional as cl_init.lua doesn't get run in multiplayer.
+-- Also intentional because cl_init.lua is not getting run, even with AddCSLuaFile()..
 function ENT:Draw()
-    if(LocalPlayer() == self:GetNW2Entity("quest_player")) then
+    if (LocalPlayer() == self:GetNW2Entity("quest_player")) then
         self:DrawModel()
     end
 end

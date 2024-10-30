@@ -1,5 +1,3 @@
-AddCSLuaFile()
-
 net.Receive("cdqs_OpenNpcQuestMenu", function(len, ply)
     local questNPC = net.ReadEntity()
     local questType = questNPC:GetQuestType()
@@ -12,7 +10,7 @@ net.Receive("cdqs_OpenNpcQuestMenu", function(len, ply)
 
     local label = vgui.Create("DLabel", frame)
 
-    local labelTitle = "Quest: " .. costin_dqs.questType.types[questType]
+    local labelTitle = "Quest: " .. costin_dqs.questType.types[questType].printName
 
     surface.SetFont("Trebuchet24")
     local x, _ = surface.GetTextSize(labelTitle)

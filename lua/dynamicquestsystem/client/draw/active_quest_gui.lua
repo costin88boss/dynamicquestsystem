@@ -1,6 +1,6 @@
 hook.Add("HUDPaintBackground", "costin_dqs_activequestgui", function()
-    if(LocalPlayer().dqs_activeQuestID == nil) then return end
-    if(LocalPlayer().dqs_activeQuestMsg == nil) then return end
+    if (LocalPlayer().dqs_activeQuestID == nil) then return end
+    if (LocalPlayer().dqs_activeQuestMsg == nil) then return end
 
     surface.SetDrawColor(50, 50, 50, 170)
     surface.DrawRect(ScrW() - 350, 0, 350, 150)

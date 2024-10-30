@@ -1,4 +1,4 @@
-// File not removed for demonstration purposes
+-- File not removed for demonstration purposes
 AddCSLuaFile()
 
 ENT.Base = "base_gmodentity"
@@ -8,12 +8,9 @@ ENT.Spawnable = true
 ENT.Category = "Dynamic Quest System"
 ENT.PrintName = "CAMERA VIEW DEBUG TEST"
 
-if(CLIENT) then return end
+if (CLIENT) then return end
 
-local y2 = 0
-local ply = nil
-
-function ENT:SpawnFunction(ply_, tr)
+function ENT:SpawnFunction(ply, tr)
 	if ( !tr.Hit ) then return end
 
 	local SpawnPos = tr.HitPos + tr.HitNormal * 16
@@ -26,12 +23,12 @@ function ENT:SpawnFunction(ply_, tr)
 	ent:Spawn()
 	ent:Activate()
 
-    ply = ply_    
+    ent.ply = ply
     return ent
 end
 
 function ENT:Think()
-    if costin_dqs.utils:IsEntityInPlayerView(ply, self) then
+    if costin_dqs.utils:IsEntityInPlayerView(self.ply, self) then
         costin_dqs.utils:Print("In player view!")
     else
         costin_dqs.utils:Print("Not in player view!")

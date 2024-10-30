@@ -1,10 +1,8 @@
-AddCSLuaFile()
-
 hook.Add("AddToolMenuCategories", "costin_dqs_createcat", function()
 	spawnmenu.AddToolCategory( "Settings", "dqs_settings", "Costin's DQS" )
 end )
 
-// These can be set by any player because why not
+-- These can be set by any player because why not
 hook.Add("PopulateToolMenu", "costin_dqs_createtoolmenu", function()
 	spawnmenu.AddToolMenuOption( "Settings", "dqs_settings", "Main", "#Main", "", "", function( panel )
 		panel:ClearControls()

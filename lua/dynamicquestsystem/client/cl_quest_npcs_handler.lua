@@ -1,7 +1,5 @@
-costin_dqs = costin_dqs or {}
-
-// No need to pool inactive/"sleeping" quest NPCs on client, it's a memory waste (sarcasm)
-// Just check for transparency.
+-- No need to pool inactive/"sleeping" quest NPCs on client, it's a memory waste (sarcasm)
+-- Just check for transparency.
 costin_dqs.npcs = costin_dqs.npcs or {}
 costin_dqs.localTotalQuestsCompleted = costin_dqs.localTotalQuestsCompleted or 0
 
@@ -17,20 +15,20 @@ end)
 
 hook.Add("HUDPaint", "costin_dynamicquestgiver_predrawplayerhands", function()
     local ply = LocalPlayer()
-    if(!ply:GetNW2Bool("CanSeeQuestNpcsXray")) then return false end
+    if (!ply:GetNW2Bool("CanSeeQuestNpcsXray")) then return false end
     for i, npc in pairs(costin_dqs.npcs) do
-        if(npc:GetColor().a < 255) then continue end
+        if (npc:GetColor().a < 255) then continue end
 
         local screenData = (npc:GetPos() + animPos):ToScreen()
         local dist = ply:GetPos():Distance(npc:GetPos() + animPos)
 
-        // For some reason works, so can't complain.
-        // This is used to make the overlay not go too far from the top of an NPC.
+        -- For some reason works, so can't complain.
+        -- This is used to make the overlay not go too far from the top of an NPC.
         fDist = math.sqrt(dist)
 
         animPos.z = 200 + math.sin(CurTime() + i) * 1 * fDist
 
-        if(!screenData.visible) then continue end
+        if (!screenData.visible) then continue end
 
         surface.SetDrawColor(255, 255, 255, 255)
         surface.SetMaterial(matArrowDown)
@@ -57,7 +55,7 @@ net.Receive("cdqs_ActiveQuestUpdate", function()
     local questError = net.ReadString()
     questData = net.ReadTable()
 
-    if(questCompleteStatus == 1) then
+    if (questCompleteStatus == 1) then
         LocalPlayer().dqs_activeQuestID = nil
         costin_dqs.localTotalQuestsCompleted = costin_dqs.localTotalQuestsCompleted + 1
         chat.AddText("[QUEST COMPLETED]")
@@ -65,11 +63,11 @@ net.Receive("cdqs_ActiveQuestUpdate", function()
         return 
     end
 
-    if(questError != "") then
+    if (questError != "") then
         chat.AddText(questError)
     end
 
-    if(questCompleteStatus == 2) then
+    if (questCompleteStatus == 2) then
         LocalPlayer().dqs_activeQuestID = nil
         chat.AddText("[QUEST CANCELLED]")
         return 
@@ -77,52 +75,52 @@ net.Receive("cdqs_ActiveQuestUpdate", function()
 
     chat.AddText("[QUEST OBJECTIVE UPDATED]")
 
-    if(LocalPlayer().dqs_activeQuestID == 1) then // Go to area
+    if (LocalPlayer().dqs_activeQuestID == 1) then -- Go to area
         local gotoPos = questData[1]
         local returnToQuestNPC = questData[2]
 
-        if(!returnToQuestNPC) then
+        if (!returnToQuestNPC) then
             LocalPlayer().dqs_activeQuestMsg = "Go to area."
         else
             LocalPlayer().dqs_activeQuestMsg = "Go back to the Quest NPC."
         end
 
-        // Ugly but works
+        -- Ugly but works
         costin_dqs.visualizerFunc = function()
             local screenData = gotoPos:ToScreen()
 
-            if(!screenData.visible) then return end
+            if (!screenData.visible) then return end
 
             surface.SetDrawColor(255, 0, 0, 255)
 
             surface.DrawCircle(screenData.x, screenData.y, 100, 255, 0, 0, 255)
         end
     end
-    if(LocalPlayer().dqs_activeQuestID == 2) then // Bring me item
+    if (LocalPlayer().dqs_activeQuestID == 2) then -- Bring me item
         local gotoPos = questData[1]
         local itemPickedUp = questData[2]
 
-        if(!itemPickedUp) then
+        if (!itemPickedUp) then
             LocalPlayer().dqs_activeQuestMsg = "Go and pick up the item."
         else
             LocalPlayer().dqs_activeQuestMsg = "Give the item to the NPC."
         end
 
-        // Ugly but works
+        -- Ugly but works
         costin_dqs.visualizerFunc = function()
             local screenData = gotoPos:ToScreen()
         
-            if(!screenData.visible) then return end
+            if (!screenData.visible) then return end
         
             surface.SetDrawColor(0, 0, 255, 255)
         
             surface.DrawCircle(screenData.x, screenData.y, 100, 255, 0, 0, 255)
         end
     end
-    if(LocalPlayer().dqs_activeQuestID == 3) then // Bring me item
+    if (LocalPlayer().dqs_activeQuestID == 3) then -- Bring me item
         LocalPlayer().dqs_activeQuestMsg = "Defend Me!"
 
-        // Ugly but works
+        -- Ugly but works
         costin_dqs.visualizerFunc = function()
             for i = 1, #questData do
                 local gotoPos = questData[i]
