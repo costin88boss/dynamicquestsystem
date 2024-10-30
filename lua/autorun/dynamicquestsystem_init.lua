@@ -4,6 +4,7 @@ costin_dqs = costin_dqs or {}
 costin_dqs.npcs = costin_dqs.npcs or {}
 costin_dqs.utils = costin_dqs.utils or {}
 costin_dqs.questType = costin_dqs.questType or {}
+costin_dqs.convars = costin_dqs.convars or {}
 
 costin_dqs.baseDir = "dynamicquestsystem/"
 
@@ -33,7 +34,6 @@ end
 
 -- Server-only initialization stuff
 if (SERVER) then
-    costin_dqs.convars = costin_dqs.convars or {}
 
     -- Used to pool NPCs instead of spawning/deleting over and over.
     -- Very slight performance increase.
@@ -79,6 +79,7 @@ costin_dqs.completeStatus.COMPLETE = 1
 costin_dqs.completeStatus.FAILED = 2
 
 -- Loading stuff
+costin_dqs.LoadShared("convars.lua")
 costin_dqs.LoadShared("util.lua")
 --costin_dqs.LoadShared("quest_types.lua")
 

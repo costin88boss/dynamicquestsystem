@@ -46,37 +46,3 @@ local function GenerateFilesIfTheyDontExist()
         file.Write("dynamicquestsystem/bringmeitem_types.json", util.TableToJSON(bringMeItemTypes))
     end
 end
-
--- Gmod wiki says that FCVAR_ARCHIVE is only for clientside?
-local function LoadConvars()
-    GenerateFilesIfTheyDontExist()
-    local convarData = util.JSONToTable(file.Read("dynamicquestsystem/convars.json"))
-    costin_dqs.convars.convar_mapspawnerenabled = CreateConVar("costin_dqs_mapspawnerenabled", "0", FCVAR_NOTIFY)
-    costin_dqs.convars.convar_delay = CreateConVar("costin_dqs_spawndelay", convarData.costin_dqs_spawndelay or "1", FCVAR_NOTIFY)
-    costin_dqs.convars.convar_mindistancefromplayers = CreateConVar("costin_dqs_mindistancefromplayers", convarData.costin_dqs_mindistancefromplayers or "2000", FCVAR_NOTIFY)
-    costin_dqs.convars.convar_maxnpcamount = CreateConVar("costin_dqs_maxnpcamount", convarData.costin_dqs_maxnpcamount or "5", FCVAR_NOTIFY)
-
-    costin_dqs.convars.convar_enemyspawn_distmax = CreateConVar("costin_dqs_enemyspawn_distmax", convarData.costin_dqs_enemyspawn_distmax or "2500", FCVAR_NOTIFY)
-    costin_dqs.convars.convar_enemyspawn_distmin = CreateConVar("costin_dqs_enemyspawn_distmin", convarData.costin_dqs_enemyspawn_distmin or "500", FCVAR_NOTIFY)
-end
-
--- Gmod wiki says that FCVAR_ARCHIVE is only for clientside?
-local function SaveConvars()
-    GenerateFilesIfTheyDontExist()
-    local convarData = {}
-    -- I don't want to make 'enabled' persistent.
-    --convarData.costin_dqs_enabled                = cvars.Bool("costin_dqs_mapspawnerenabled", false)
-    convarData.costin_dqs_spawndelay             = tostring(cvars.Number("costin_dqs_spawndelay", 1))
-    convarData.costin_dqs_mindistancefromplayers = tostring(cvars.Number("costin_dqs_mindistancefromplayers", 2000))
-    convarData.costin_dqs_maxnpcamount = tostring(cvars.Number("costin_dqs_maxnpcamount", 5))
-
-    convarData.convar_enemyspawn_distmax = tostring(cvars.Number("costin_dqs_enemyspawn_distmax", 2500))
-    convarData.convar_enemyspawn_distmin = tostring(cvars.Number("costin_dqs_enemyspawn_distmin", 500))
-    file.Write("dynamicquestsystem/convars.json", util.TableToJSON(convarData))
-end
-
--- If the server crashes, this may not work.
--- An alternative is to always save the convars when a change to one of them is made.
-hook.Add("ShutDown", "costin_dqs_shutdown_saveconvars", SaveConvars)
-
-LoadConvars()
