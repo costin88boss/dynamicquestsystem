@@ -1,4 +1,4 @@
-This is a demonstration addon.
+This was a demonstration addon made for the game Garry's Mod.
 
 It contains a world spawner of Quest NPCs.
 
@@ -8,7 +8,7 @@ The following quest types exist:
 - Bring me item (slows you down when picking item up)
 - Defend me (spawns enemies around you, but such that they cannot directly see you)
 
-There's also a weapon called "NPCs Snithcer", which lets you see a HUD overlay of every quest npc.
+There's also a weapon called "NPCs Snitcher", which lets you see a HUD overlay of every quest npc.
 
 Total quests completed per players are saved in sv.db (for demonstration purposes, also because it's cooler).
 Item models that can spawn when you get the "Bring me item" quest are saved as json in the /data/ folder serverside.
